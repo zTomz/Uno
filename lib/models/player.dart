@@ -2,7 +2,7 @@ import 'package:uno/models/card.dart';
 
 class Player {
   final List<GameCard> cards = [];
-  final int id;
+  int id;
 
   Player({
     required this.id,
