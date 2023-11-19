@@ -1,6 +1,6 @@
 # Uno Card Game App 🃏
 
-![Uno Card Game App Logo](link-to-your-logo.png)
+<!-- ![Uno Card Game App Logo](link-to-your-logo.png) -->
 
 ## Table of Contents
 
@@ -44,12 +44,12 @@ To get started with the Uno Card Game App, follow these steps:
 
 ####  1. **Clone the Repository:**
 
-`git clone https://github.com/your-username/uno_card_game.git`
+`git clone https://github.com/zTomz/Uno-Card-Game.git`
 
 
 #### 2. **Navigate to the Project Directory:**
 
-`cd uno_card_game`
+`cd Uno-Card-Game`
 
 #### 3. **Install Dependencies:**
 
@@ -58,9 +58,6 @@ To get started with the Uno Card Game App, follow these steps:
 #### 4. **Run the App:**
 
 `flutter run`
-
-
-For more detailed instructions, refer to the [Installation Guide](docs/installation.md).
 
 ## How to Play
 
