@@ -1,4 +1,4 @@
-# Uno Card Game App 🃏
+# Uno Card Game 🃏
 
 <!-- ![Uno Card Game App Logo](link-to-your-logo.png) -->
 
