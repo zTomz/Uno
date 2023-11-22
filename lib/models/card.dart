@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 abstract class GameCard {
-  final CardColor color;
+  CardColor color;
 
   GameCard({
     required this.color,
@@ -23,6 +23,8 @@ abstract class GameCard {
   }
 
   Widget display();
+
+  List<GameCard> randomCards({int count = 1});
 
   static TextStyle get textStyle => const TextStyle(
         color: Colors.black,
@@ -62,6 +64,17 @@ class DefaultCard extends GameCard {
       textAlign: TextAlign.center,
     );
   }
+
+  @override
+  List<GameCard> randomCards({int count = 1}) {
+    List<GameCard> cards = [];
+
+    for (int i = 0; i < count; i++) {
+      cards.add(DefaultCard.randomCard());
+    }
+
+    return cards;
+  }
 }
 
 class SpecialCard extends GameCard {
@@ -71,6 +84,19 @@ class SpecialCard extends GameCard {
     required this.type,
     required super.color,
   });
+
+  SpecialCard.randomColor(SpecialCardType cardType)
+      : type = cardType,
+        super(
+          color: CardColor.values[Random().nextInt(CardColor.values.length)],
+        );
+
+  SpecialCard.randomCard()
+      : type = SpecialCardType
+            .values[Random().nextInt(SpecialCardType.values.length)],
+        super(
+          color: CardColor.values[Random().nextInt(CardColor.values.length)],
+        );
 
   @override
   Widget display() {
@@ -108,11 +134,16 @@ class SpecialCard extends GameCard {
     }
   }
 
-  SpecialCard.randomColor(SpecialCardType cardType)
-      : type = cardType,
-        super(
-          color: CardColor.values[Random().nextInt(CardColor.values.length)],
-        );
+  @override
+  List<GameCard> randomCards({int count = 1}) {
+    List<GameCard> cards = [];
+
+    for (int i = 0; i < count; i++) {
+      cards.add(SpecialCard.randomCard());
+    }
+
+    return cards;
+  }
 }
 
 enum SpecialCardType {

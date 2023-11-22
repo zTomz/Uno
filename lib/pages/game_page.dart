@@ -17,12 +17,12 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     super.initState();
 
-    context.read<Game>().init();
+    context.read<GameProvider>().init();
   }
 
   @override
   Widget build(BuildContext context) {
-    final game = context.watch<Game>();
+    final game = context.watch<GameProvider>();
 
     return Scaffold(
       body: Center(
@@ -60,7 +60,7 @@ class _GamePageState extends State<GamePage> {
                   },
                 ),
                 Text(
-                  "Current Player: ${game.currentPlayer}",
+                  "Current Player: ${game.currentPlayer}\nDirection: ${game.gameDirection}\nCards to draw: ${game.cardsToDraw}",
                   style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
