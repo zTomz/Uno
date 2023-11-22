@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uno/models/card.dart';
@@ -89,12 +87,8 @@ class GameProvider extends ChangeNotifier {
   void addRandomCardToPlayer(Player player,
       {int count = 1, bool notify = true}) {
     for (int i = 0; i < count; i++) {
-      // Add a random card, randomly decide if it's a default card or a special card
-      if (Random().nextBool()) {
-        player.addCard(DefaultCard.randomCard());
-      } else {
-        player.addCard(SpecialCard.randomCard());
-      }
+      // Add a random card
+      player.addCard(GameCard.randomCard());
     }
 
     if (notify) {

@@ -27,24 +27,34 @@ class CardDisplay extends StatelessWidget {
         width:
             cards.length * overlayWidth + (CardWidget.cardWidth - overlayWidth),
         child: Stack(
-          children: cards
-              .map(
-                (card) => Positioned(
-                  left: iteration++ * overlayWidth,
-                  top: Random().nextInt(10).toDouble(),
-                  child: CardWidget(
-                    backgroundColor: card.getColor(),
-                    textColor: Colors.black,
-                    onTap: () {
-                      if (onTap != null) {
-                        onTap!(card);
-                      }
-                    },
-                    child: card.display(),
-                  ),
+          children: cards.map(
+            (card) {
+              String tooltip = "";
+
+              if (card is DefaultCard) {
+                tooltip =
+                    " ${card.value}: ${GameCard.cardColorToString(card.color)}";
+              } else if (card is SpecialCard) {
+                tooltip = GameCard.specialCardTypeToString(card.type);
+              }
+
+              return Positioned(
+                left: iteration++ * overlayWidth,
+                top: Random().nextInt(10).toDouble(),
+                child: CardWidget(
+                  backgroundColor: card.getColor(),
+                  textColor: Colors.black,
+                  tooltip: tooltip,
+                  onTap: () {
+                    if (onTap != null) {
+                      onTap!(card);
+                    }
+                  },
+                  child: card.display(),
                 ),
-              )
-              .toList(),
+              );
+            },
+          ).toList(),
         ),
       ),
     );

@@ -22,6 +22,40 @@ abstract class GameCard {
     }
   }
 
+  static GameCard randomCard() {
+    return Random().nextBool()
+        ? DefaultCard.randomCard()
+        : SpecialCard.randomCard();
+  }
+
+  static String cardColorToString(CardColor color) {
+    switch (color) {
+      case CardColor.red:
+        return "Red";
+      case CardColor.green:
+        return "Green";
+      case CardColor.blue:
+        return "Blue";
+      case CardColor.yellow:
+        return "Yellow";
+    }
+  }
+
+  static String specialCardTypeToString(SpecialCardType type) {
+    switch (type) {
+      case SpecialCardType.reverse:
+        return "Reverse";
+      case SpecialCardType.skip:
+        return "Skip";
+      case SpecialCardType.drawTwo:
+        return "Draw Two";
+      case SpecialCardType.drawFour:
+        return "Draw Four";
+      case SpecialCardType.changeColor:
+        return "Change Color";
+    }
+  }
+
   Widget display();
 
   List<GameCard> randomCards({int count = 1});
@@ -102,16 +136,16 @@ class SpecialCard extends GameCard {
   Widget display() {
     switch (type) {
       case SpecialCardType.reverse:
-        return Text(
-          'Reverse',
-          style: GameCard.textStyle,
-          textAlign: TextAlign.center,
+        return const Icon(
+          Icons.swap_horiz_rounded,
+          color: Colors.black,
+          size: 40,
         );
       case SpecialCardType.skip:
-        return Text(
-          'Skip',
-          style: GameCard.textStyle,
-          textAlign: TextAlign.center,
+        return const Icon(
+          Icons.skip_next_rounded,
+          color: Colors.black,
+          size: 40,
         );
       case SpecialCardType.drawTwo:
         return Text(
@@ -126,10 +160,10 @@ class SpecialCard extends GameCard {
           textAlign: TextAlign.center,
         );
       case SpecialCardType.changeColor:
-        return Text(
-          'Change Color',
-          style: GameCard.textStyle,
-          textAlign: TextAlign.center,
+        return const Icon(
+          Icons.refresh_rounded,
+          color: Colors.black,
+          size: 40,
         );
     }
   }

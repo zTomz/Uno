@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class CardWidget extends StatelessWidget {
   final Widget child;
+  final String tooltip;
   final void Function()? onTap;
   final Color? textColor;
   final Color? backgroundColor;
@@ -9,6 +10,7 @@ class CardWidget extends StatelessWidget {
   const CardWidget({
     super.key,
     required this.child,
+    this.tooltip = "",
     this.textColor = Colors.white,
     this.backgroundColor = Colors.black,
     this.onTap,
@@ -20,22 +22,25 @@ class CardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: Container(
-        width: cardWidth,
-        height: cardHeight,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(borderRadius),
-          border: Border.all(
-            width: 3,
-            color: Colors.white,
+    return Tooltip(
+      message: tooltip,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(borderRadius),
+        child: Container(
+          width: cardWidth,
+          height: cardHeight,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            borderRadius: BorderRadius.circular(borderRadius),
+            border: Border.all(
+              width: 3,
+              color: Colors.white,
+            ),
           ),
+          child: child,
         ),
-        child: child,
       ),
     );
   }
