@@ -19,20 +19,20 @@ class GameProvider extends ChangeNotifier {
   /// player.
   int cardsToDraw = 0;
 
-  /// Initialize the game
-  ///
-  /// `notify` - set to `false` by default
-  void init({int playerCount = 2, int cardCount = 7, bool notify = false}) {
+  /// Initialize the game and reset all variables
+  void init({int playerCount = 2, bool notify = true, int cardCount = 7}) {
     players.clear();
     storedCards.clear();
     currentPlayer = 0;
+    cardsToDraw = 0;
+    gameDirection = 1;
 
     for (int i = 0; i < playerCount; i++) {
       players.add(Player(id: i));
     }
 
     for (int i = 0; i < players.length; i++) {
-      addRandomCardToPlayer(players[i], count: 7, notify: false);
+      addRandomCardToPlayer(players[i], count: cardCount, notify: false);
     }
 
     if (notify) {
@@ -103,6 +103,49 @@ class GameProvider extends ChangeNotifier {
     if (currentPlayer != player.id) {
       return;
     }
+
+    // Check for win
+    if (player.cards.length == 1 && cardCanBePlaced(card)) {
+      if (!player.saidCrazy) {
+        // Player had not said crazy, so he gets a punishment
+        // of 1 card
+        addRandomCardToPlayer(player, count: 2, notify: false);
+        player.saidCrazy = false;
+
+        Get.showSnackbar(
+          const GetSnackBar(
+            title: "Crazy",
+            message:
+                "You got a punishment of 2 cards. You have to say 'crazy' when you have 1 card left.",
+          ),
+        );
+
+        nextPlayer();
+        return;
+      }
+
+      // Place the card
+      storedCards.add(card);
+      player.removeCard(card);
+
+      notifyListeners();
+
+      Get.showSnackbar(
+        const GetSnackBar(
+          title: "Crazy",
+          message: "You won the game!",
+        ),
+      );
+
+      await Future.delayed(const Duration(seconds: 3), () {
+        Get.closeAllSnackbars();
+        init();
+      });
+      return;
+    }
+
+    // Set player not said crazy
+    player.saidCrazy = false;
 
     debugPrint("Card can be placed: ${cardCanBePlaced(card)}");
     if (card is SpecialCard && cardCanBePlaced(card)) {
@@ -211,7 +254,7 @@ class GameProvider extends ChangeNotifier {
       return;
     }
 
-    // Check if the card is a +2 or +4, else return false
+    // Check if the card is a +2 or +4
     switch (card.type) {
       case SpecialCardType.drawTwo:
         cardsToDraw += 2;
@@ -294,5 +337,21 @@ class GameProvider extends ChangeNotifier {
 
     return returnColor ??
         (storedCards.isNotEmpty ? storedCards.last.color : CardColor.red);
+  }
+
+  /// Set the player crazy, is like in uno saying "Uno"
+  /// if `cardsToDraw` > 0, add a random card to the player
+  /// as a punishment. Can only say "crazy" when 1 card is left
+  bool setPlayerCrazy(Player player) {
+    if (player.cards.length > 1) {
+      addRandomCardToPlayer(player);
+
+      return false;
+    }
+
+    player.saidCrazy = true;
+    notifyListeners();
+
+    return true;
   }
 }

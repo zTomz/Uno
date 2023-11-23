@@ -5,9 +5,14 @@ class Player {
   final List<GameCard> cards = [];
   /// The id of the player
   int id;
+  /// The player name - is optional
+  String? name;
+  /// Is the player crazy - like in uno saying "Uno"
+  bool saidCrazy = false;
 
   Player({
     required this.id,
+    this.name,
   });
 
   /// Add a card to the player
@@ -23,5 +28,10 @@ class Player {
   /// Remove a card from the player
   void removeCard(GameCard card) {
     cards.remove(card);
+  }
+
+  /// Set the name of the player
+  void setName(String name) {
+    this.name = name;
   }
 }

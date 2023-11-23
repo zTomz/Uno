@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:uno/provider/game_provider.dart';
 import 'package:uno/widgets/card_display_widget.dart';
 import 'package:uno/widgets/card_widget.dart';
+import 'package:uno/widgets/player_card_row_widget.dart';
 
 class GamePage extends StatefulWidget {
   const GamePage({super.key});
@@ -16,7 +17,7 @@ class _GamePageState extends State<GamePage> {
   void initState() {
     super.initState();
 
-    context.read<GameProvider>().init();
+    context.read<GameProvider>().init(notify: false, cardCount: 2);
   }
 
   @override
@@ -28,16 +29,7 @@ class _GamePageState extends State<GamePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            CardDisplay(
-              cards: game.players[0].cards,
-              overlayWidth: 47.5,
-              onTap: (card) {
-                game.placeCard(
-                  game.players[0],
-                  card,
-                );
-              },
-            ),
+            PlayerCardRow(player: game.players[0]),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -80,16 +72,7 @@ class _GamePageState extends State<GamePage> {
                 ),
               ],
             ),
-            CardDisplay(
-              cards: game.players[1].cards,
-              overlayWidth: 47.5,
-              onTap: (card) {
-                game.placeCard(
-                  game.players[1],
-                  card,
-                );
-              },
-            ),
+            PlayerCardRow(player: game.players[1]),
           ],
         ),
       ),

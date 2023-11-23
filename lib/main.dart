@@ -14,6 +14,8 @@ void main() async {
     DeviceOrientation.landscapeRight,
   ]);
 
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+
   runApp(
     MultiProvider(
       providers: [
