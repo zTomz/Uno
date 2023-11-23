@@ -17,8 +17,8 @@ class CardWidget extends StatelessWidget {
   });
 
   static const double borderRadius = 15;
-  static const double cardWidth = 85;
-  static const double cardHeight = 125;
+  static const double cardWidth = 70;
+  static const double cardHeight = 100;
 
   @override
   Widget build(BuildContext context) {

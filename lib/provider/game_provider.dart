@@ -114,10 +114,10 @@ class GameProvider extends ChangeNotifier {
       switch (card.type) {
         case SpecialCardType.drawTwo:
           await handleDrawCards(player, card);
-          break;
+          return;
         case SpecialCardType.drawFour:
           await handleDrawCards(player, card);
-          break;
+          return;
         case SpecialCardType.reverse:
           if (gameDirection >= 1) {
             gameDirection = -1;
@@ -152,11 +152,8 @@ class GameProvider extends ChangeNotifier {
     }
 
     if (cardsToDraw > 0) {
-      // Add cardsToDraw to the player
-      addRandomCardToPlayer(player, count: cardsToDraw);
-      cardsToDraw = 0;
-
-      nextPlayer();
+      await handleDrawCards(player, null);
+      return;
     }
   }
 
@@ -203,11 +200,17 @@ class GameProvider extends ChangeNotifier {
   }
 
   /// Checks if the card is a +2 or +4 => `cardsToDraw` get incremented
-  /// and `true` is returned, else `cardsToDraw` get added to the player
-  /// and `false` is returned
-  ///
-  /// If `true` is returned, `nextPlayer` will be called
-  Future<bool> handleDrawCards(Player player, SpecialCard card) async {
+  /// else `cardsToDraw` get added to the player
+  Future<void> handleDrawCards(Player player, SpecialCard? card) async {
+    if (card == null) {
+      // Add `cardsToDraw` to the player
+      addRandomCardToPlayer(player, count: cardsToDraw, notify: false);
+      cardsToDraw = 0;
+
+      nextPlayer();
+      return;
+    }
+
     // Check if the card is a +2 or +4, else return false
     switch (card.type) {
       case SpecialCardType.drawTwo:
@@ -229,12 +232,12 @@ class GameProvider extends ChangeNotifier {
           cardsToDraw = 0;
 
           nextPlayer();
-
-          return true;
+          return;
         }
     }
 
-    return true;
+    nextPlayer();
+    return;
   }
 
   /// Show a color chooser dialog and let the user choose a color

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:uno/provider/game_provider.dart';
-import 'package:uno/models/card.dart';
 import 'package:uno/widgets/card_display_widget.dart';
 import 'package:uno/widgets/card_widget.dart';
 
@@ -31,6 +30,7 @@ class _GamePageState extends State<GamePage> {
           children: [
             CardDisplay(
               cards: game.players[0].cards,
+              overlayWidth: 47.5,
               onTap: (card) {
                 game.placeCard(
                   game.players[0],
@@ -51,11 +51,19 @@ class _GamePageState extends State<GamePage> {
                     ),
                     textAlign: TextAlign.center,
                   ),
-                  onTap: () {
-                    game.addCardToPlayer(
-                      game.getCurrentPlayer(),
-                      DefaultCard.randomCard(),
-                    );
+                  onTap: () async {
+                    final currentPlayer = game.players[game.currentPlayer];
+
+                    if (game.cardsToDraw > 0) {
+                      // Add cardsToDraw to the player
+                      await game.handleDrawCards(
+                        currentPlayer,
+                        null,
+                      );
+                      return;
+                    }
+
+                    game.addRandomCardToPlayer(currentPlayer);
                     game.nextPlayer();
                   },
                 ),
@@ -74,6 +82,7 @@ class _GamePageState extends State<GamePage> {
             ),
             CardDisplay(
               cards: game.players[1].cards,
+              overlayWidth: 47.5,
               onTap: (card) {
                 game.placeCard(
                   game.players[1],

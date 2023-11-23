@@ -92,7 +92,7 @@ BEGIN
             VALUE "CompanyName", "com.tom" "\0"
             VALUE "FileDescription", "uno" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "uno" "\0"
+            VALUE "InternalName", "com.tom.crazy_card" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.tom. All rights reserved." "\0"
             VALUE "OriginalFilename", "uno.exe" "\0"
             VALUE "ProductName", "uno" "\0"
