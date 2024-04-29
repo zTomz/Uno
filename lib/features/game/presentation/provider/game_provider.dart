@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:uno/models/card.dart';
-import 'package:uno/models/game_direction.dart';
-import 'package:uno/models/player.dart';
+import 'package:uno/features/game/data/models/card.dart';
+import 'package:uno/features/game/data/models/game_direction.dart';
+import 'package:uno/features/game/data/models/player.dart';
 
 class GameProvider extends ChangeNotifier {
   final List<Player> players = [];

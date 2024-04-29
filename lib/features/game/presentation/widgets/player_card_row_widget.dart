@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:uno/models/player.dart';
-import 'package:uno/provider/game_provider.dart';
-import 'package:uno/widgets/card_display_widget.dart';
+import 'package:uno/features/game/data/models/player.dart';
+import 'package:uno/features/game/presentation/provider/game_provider.dart';
+import 'package:uno/features/game/presentation/widgets/card_display_widget.dart';
 
 class PlayerCardRow extends StatelessWidget {
   final Player player;

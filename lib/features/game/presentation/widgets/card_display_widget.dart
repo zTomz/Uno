@@ -1,8 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:uno/models/card.dart';
-import 'package:uno/widgets/card_widget.dart';
+import 'package:uno/features/game/data/models/card.dart';
+import 'package:uno/features/game/presentation/widgets/card_widget.dart';
 
 class CardDisplay extends StatelessWidget {
   final List<GameCard> cards;

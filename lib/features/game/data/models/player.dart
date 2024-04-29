@@ -1,4 +1,4 @@
-import 'package:uno/models/card.dart';
+import 'package:uno/features/game/data/models/card.dart';
 
 class Player {
   /// The cards of the player
