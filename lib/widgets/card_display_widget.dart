@@ -32,17 +32,16 @@ class CardDisplay extends StatelessWidget {
               String tooltip = "";
 
               if (card is DefaultCard) {
-                tooltip =
-                    " ${card.value}: ${GameCard.cardColorToString(card.color)}";
+                tooltip = " ${card.color.name} ${card.value}";
               } else if (card is SpecialCard) {
-                tooltip = GameCard.specialCardTypeToString(card.type);
+                tooltip = card.type.name;
               }
 
               return Positioned(
                 left: iteration++ * overlayWidth,
                 top: Random().nextInt(10).toDouble(),
                 child: CardWidget(
-                  backgroundColor: card.getColor(),
+                  backgroundColor: card.color.color,
                   textColor: Colors.black,
                   tooltip: tooltip,
                   onTap: () {

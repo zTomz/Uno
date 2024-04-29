@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:uno/models/card.dart';
+import 'package:uno/models/game_direction.dart';
 import 'package:uno/models/player.dart';
 
 class GameProvider extends ChangeNotifier {
@@ -9,7 +10,7 @@ class GameProvider extends ChangeNotifier {
   int currentPlayer = 0;
 
   /// Direction the players change - 1 for next player, -1 for previous player
-  int gameDirection = 1;
+  GameDirection gameDirection = GameDirection.forward;
 
   /// A counter to keep track of the number of cards to draw
   ///
@@ -25,7 +26,7 @@ class GameProvider extends ChangeNotifier {
     storedCards.clear();
     currentPlayer = 0;
     cardsToDraw = 0;
-    gameDirection = 1;
+    gameDirection = GameDirection.initial;
 
     for (int i = 0; i < playerCount; i++) {
       players.add(Player(id: i));
@@ -40,48 +41,11 @@ class GameProvider extends ChangeNotifier {
     }
   }
 
-  /// Add a player to the game
-  void addPlayer() {
-    players.add(Player(id: players.length));
-
-    notifyListeners();
-  }
-
-  /// Remove a player from the game
-  void removePlayer(Player player) {
-    players.remove(player);
-
-    for (int i = 0; i < players.length; i++) {
-      players[i].id = i;
-    }
-
-    notifyListeners();
-  }
-
   /// Change the current player to the next player
   void nextPlayer() {
-    currentPlayer = (currentPlayer + gameDirection) % players.length;
+    currentPlayer = (currentPlayer + gameDirection.value) % players.length;
 
     notifyListeners();
-  }
-
-  /// Get the current player
-  Player getCurrentPlayer() {
-    return players[currentPlayer];
-  }
-
-  /// Get the next player
-  Player getNextPlayer() {
-    return players[(currentPlayer + gameDirection) % players.length];
-  }
-
-  /// Add a card to the current player
-  void addCardToPlayer(Player player, GameCard card, {bool notify = false}) {
-    player.addCard(card);
-
-    if (notify) {
-      notifyListeners();
-    }
   }
 
   void addRandomCardToPlayer(Player player,
@@ -162,11 +126,7 @@ class GameProvider extends ChangeNotifier {
           await handleDrawCards(player, card);
           return;
         case SpecialCardType.reverse:
-          if (gameDirection >= 1) {
-            gameDirection = -1;
-          } else {
-            gameDirection = 1;
-          }
+          gameDirection = gameDirection.toggle();
           break;
         case SpecialCardType.skip:
           currentPlayer = currentPlayer + 1;

@@ -9,51 +9,10 @@ abstract class GameCard {
     required this.color,
   });
 
-  Color getColor() {
-    switch (color) {
-      case CardColor.red:
-        return Colors.red;
-      case CardColor.green:
-        return Colors.green;
-      case CardColor.blue:
-        return Colors.blue;
-      case CardColor.yellow:
-        return Colors.yellow;
-    }
-  }
-
   static GameCard randomCard() {
     return Random().nextBool()
         ? DefaultCard.randomCard()
         : SpecialCard.randomCard();
-  }
-
-  static String cardColorToString(CardColor color) {
-    switch (color) {
-      case CardColor.red:
-        return "Red";
-      case CardColor.green:
-        return "Green";
-      case CardColor.blue:
-        return "Blue";
-      case CardColor.yellow:
-        return "Yellow";
-    }
-  }
-
-  static String specialCardTypeToString(SpecialCardType type) {
-    switch (type) {
-      case SpecialCardType.reverse:
-        return "Reverse";
-      case SpecialCardType.skip:
-        return "Skip";
-      case SpecialCardType.drawTwo:
-        return "Draw Two";
-      case SpecialCardType.drawFour:
-        return "Draw Four";
-      case SpecialCardType.changeColor:
-        return "Change Color";
-    }
   }
 
   Widget display();
@@ -80,7 +39,7 @@ class DefaultCard extends GameCard {
 
   @override
   String toString() {
-    return 'GameCard{value: $value, color: $color}';
+    return 'DefautCard{value: $value, color: $color}';
   }
 
   /// Returns a card with a random number and random color
@@ -181,16 +140,25 @@ class SpecialCard extends GameCard {
 }
 
 enum SpecialCardType {
-  reverse,
-  skip,
-  drawTwo,
-  drawFour,
-  changeColor,
+  reverse("Reverse"),
+  skip("Skip"),
+  drawTwo("Draw Two"),
+  drawFour("Draw Four"),
+  changeColor("Change Color");
+
+  final String name;
+
+  const SpecialCardType(this.name);
 }
 
 enum CardColor {
-  red,
-  green,
-  blue,
-  yellow,
+  red("Red", Colors.red),
+  green("Green", Colors.green),
+  blue("Blue", Colors.blue),
+  yellow("Yellow", Colors.yellow);
+
+  final String name;
+  final Color color;
+
+  const CardColor(this.name, this.color);
 }
